@@ -15,7 +15,7 @@
 	url = https://github.com/dotphiles/dotzsh.git
 [submodule "vim/dotvim"]
 	path = vim/dotvim
-	url = https://github.com/dotphiles/dotvim.git
+	url = https://github.com/patrickkettner/dotvim.git
 
 [submodule "tmux-powerline"]
 	path = tmux-powerline
