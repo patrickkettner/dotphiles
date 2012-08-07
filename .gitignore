@@ -31,4 +31,5 @@ mutt/mailboxes.*
 mutt/smime/*
 mutt/certificates
 task/*.data
-
+git/gitconfig
+dotsyncrc

@@ -1,27 +1,282 @@
-"
 " dotphiles : https://github.com/dotphiles/dotphiles
+
 "
 " Setup vim and load required plugins before dotvim
 "
 " Authors:
 "   Ben O'Hara <bohara@gmail.com>
 "
-
 " Call dotvim
 source ~/.vim/dotvim.vim
 
-if has("user_commands")
-  set nocompatible
-  filetype off
-  set rtp+=~/.vim/bundle/vundle/
-  call vundle#rc()
-  "let g:vundles=['general', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'misc']
-  let g:vundles=['general']
-  " Load 'vundles'
-  source ~/.vim/vundles.vim
-  " Add extra bundles here...
-  " Bundle 'reponame'
+set nocompatible
+
+filetype plugin indent on " auto syntax higlighting
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+"let g:vundles=['general', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'misc']
+let g:vundles=['general', 'programming', 'python', 'javascript', 'html']
+
+source ~/.vim/vundles.vim
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-speeddating'
+Bundle 'benmills/vimux'
+Bundle 'bolasblack/csslint.vim'
+Bundle 'othree/html5-syntax.vim'
+Bundle 'pangloss/vim-javascript'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'zaiste/tmux.vim'
+
+set autoindent "lines following an indented line will have the same indentation as the previous line
+set autoread " auto reload file if its saved outside of vim
+set backspace=indent,eol,start  " allow backspacing over everything in insert mode
+set completeopt=longest,menuone,preview "better completion
+set cursorline " highlights current line
+set encoding=utf-8 " now I can use ☃!!!
+set foldmethod=syntax " automatically fold based on syntax
+set foldlevelstart=2 " start folding on the second layer
+set gdefault " defaults to global replacement on find and replace
+set hidden " allows for unsaved buffers
+set history=9999 " store past 9999 commands in history
+set ignorecase " during a search, that is
+set laststatus=2 " Always display the status line
+set lazyredraw " prevents screen from  being redrawn during macros, registers and other commands that have not been typed
+set nomore " hide the --More-- thing"
+set pastetoggle=<F2> " toggle paste mode with F2
+set nonumber " remove line numvers on the left
+set scrolloff=999
+set shell=/bin/zsh
+set showcmd " shows command in bottom left"
+set showmatch " highlight complementary side of bracket/parens/etc
+set showmode " shows insert, replace, etc"
+set smartcase "ignore ignorecase if you actually use case
+set splitbelow " makes the default split go below, rather than above current window"
+set splitright " makes a vsplit open to the right
+set title " set terms title to file name
+set ttyfast " allows for speed up in drawing the term
+set undolevels=9999
+set virtualedit+=block "enables you to navigate beyond the end of the line and onto blank lines when in visual block mode.
+set nobackup " do not write backup files
+
+"Don't add empty newlines at the end of files
+set binary
+set noeol
+
+" Show 'invisible' characters
+set lcs=tab:▸\ ,trail:·,nbsp:_
+
+let mapleader = ","
+let maplocalleader = "\\"
+
+let jshint_config = "~/.jshint_config.json"
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+  syntax on
+  set hlsearch
 endif
 
-" Customize to your needs...
+"set tabs space to 2 spaces
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_enable_signs=1
+
+"open pdfs
+autocmd BufReadPre *.pdf set ro nowrap
+autocmd BufReadPost *.pdf silent %!pdftotext "%" -nopgbrk -layout -q -eol unix -
+autocmd BufWritePost *.pdf silent !rm -rf ~/PDF/%
+autocmd BufWritePost *.pdf silent !lp -s -d pdffg "%"
+autocmd BufWritePost *.pdf silent !until [ -e ~/PDF/% ]; do sleep 1; done
+autocmd BufWritePost *.pdf silent !mv ~/PDF/% %:p:h
+
+"open epubs
+au BufReadCmd   *.epub      call zip#Browse(expand("<amatch>"))
+
+"open .doc and .docx
+autocmd BufReadPre *.doc set ro
+autocmd BufReadPre *.doc set hlsearch!
+autocmd BufReadPost *.doc %!antiword "%"
+autocmd BufReadPre *.docx set ro
+autocmd BufReadPre *.docx set hlsearch!
+autocmd BufReadPost *.docx %!antiword "%"
+
+"syntax highlighting for tmux config
+au BufNewFile,BufRead .tmux.conf*,tmux.conf* set filetype=tmux
+
+" backspace fixes
+set backspace=2
+set backspace=indent,eol,start
+
+" Make Vim able to edit crontab files again.
+set backupskip=/tmp/*,/private/tmp/*" "
+
+"allows for writing initial crons
+au! BufNewFile,BufRead crontab.* set nowritebackup
+
+"json syntax highlighting"
+au! BufRead,BufNewFile *.json set filetype=json
+
+" Resize splits when the window is resized
+au VimResized * exe "normal! \<c-w>=""
+
+" For Haml
+au! BufRead,BufNewFile *.haml setfiletype haml
+
+"allow writing of root protected files without reopening them
+cmap w!! w !sudo tee % >/dev/null
+
+"loads template of filetype if it exists
+autocmd! BufNewFile * silent! 0r ~/.vim/skel/tmpl.%:e
+
+" Pulse ------------------------------------------------------------------- {{{
+" function! PulseCursorLine()
+"     let current_window = winnr()
+"
+"     windo set nocursorline
+"     execute current_window . 'wincmd w'
+"
+"     setlocal cursorline
+"
+"     redir => old_hi
+"         silent execute 'hi CursorLine'
+"     redir END
+"     let old_hi = split(old_hi, '\n')[0]
+"     let old_hi = substitute(old_hi, 'xxx', '', '')
+"
+"     hi CursorLine guibg=#2a2a2a ctermbg=233
+"     redraw
+"     sleep 20m
+"
+"     hi CursorLine guibg=#333333 ctermbg=235
+"     redraw
+"     sleep 20m
+"
+"     hi CursorLine guibg=#3a3a3a ctermbg=237
+"     redraw
+"     sleep 20m
+"
+"     hi CursorLine guibg=#444444 ctermbg=239
+"     redraw
+"     sleep 20m
+"
+"     hi CursorLine guibg=#3a3a3a ctermbg=237
+"     redraw
+"     sleep 20m
+"
+"     hi CursorLine guibg=#333333 ctermbg=235
+"     redraw
+"     sleep 20m
+"
+"     hi CursorLine guibg=#2a2a2a ctermbg=233
+"     redraw
+"     sleep 20m
+"
+"     execute 'hi ' . old_hi
+"
+"     windo set cursorline
+"     execute current_window . 'wincmd w'
+" endfunction
+
+" }}}
+"nnoremap n n:call PulseCursorLine()<cr>
+
+" MkdirIfNeeded(dir, flags, permissions) {{{
+
+function! MkdirIfNeeded(dir, flags, permissions)
+  if !isdirectory(a:dir)
+    call mkdir(a:dir, a:flags, a:permissions)
+  endif
+endfunction
+
+let g:Powerline_symbols = 'fancy'
+
+" Wrap visual selection in an HTML tag.
+vmap <Leader>w <Esc>:call VisualHTMLTagWrap()<CR>
+function! VisualHTMLTagWrap()
+  let tag = input("Tag to wrap block: ")
+  if len(tag) > 0
+    normal `>
+    if &selection == 'exclusive'
+      exe "normal i</".tag.">"
+    else
+      exe "normal a</".tag.">"
+    endif
+    normal `<
+    exe "normal i<".tag.">"
+    normal `<
+  endif
+endfunction
+
+" search google for something
+function! Terms()
+  call inputsave()
+  let searchterm = input('Search: ')
+  call inputrestore()
+  return searchterm
+endfunction
+
+map ≈ <ESC>:! /usr/bin/open -a "/Applications/Google Chrome Canary.app" 'https://google.com/search?q=<C-R>=Terms()<CR>'<CR><CR> "map < ⌥ - x > to a google search
+
+" Wrap visual selection in an HTML tag.
+function! VisualHTMLTagWrap()
+  let tag = input("Tag to wrap block: ")
+  if len(tag) > 0
+    normal `>
+    if &selection == 'exclusive'
+      exe "normal i</".tag.">"
+    else
+      exe "normal a</".tag.">"
+    endif
+    normal `<
+    exe "normal i<".tag.">"
+    normal `<
+  endif
+endfunction
+
+vmap <Leader>w <Esc>:call VisualHTMLTagWrap()<CR>
+
+"cycles through relative, absolute, and no numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  elseif(&number == 1)
+    set nonumber
+  else
+    set relativenumber
+  endif
+endfunc
+noremap <C-n> :call NumberToggle()<cr>
+
+let javaScript_fold=1         " JavaScript
+let php_folding=1             " PHP
+let ruby_fold=1               " Ruby
+let sh_fold_enabled=1         " sh
+let vimsyn_folding='af'       " Vim script
+let xml_syntax_folding=1      " XML
+
+" automatically reload vimrc when it's saved
+au BufWritePost .vimrc so ~/.vimrc
+
+source ~/.vim/plugin/settings/bindings.vim
+source ~/.vim/plugin/settings/colors.vim
+source ~/.vim/plugin/settings/ctrlp.vim
+source ~/.vim/plugin/settings/fugitive.vim
+source ~/.vim/plugin/settings/gitcommit.vim
+source ~/.vim/plugin/settings/indent-guides.vim
+source ~/.vim/plugin/settings/indentobject.vim
+source ~/.vim/plugin/settings/macros.vim
+source ~/.vim/plugin/settings/neocomplcache.vim
+source ~/.vim/plugin/settings/nerdcommenter.vim
+source ~/.vim/plugin/settings/nerdtree.vim
+source ~/.vim/plugin/settings/omnicomplete.vim
+source ~/.vim/plugin/settings/powerline.vim
+source ~/.vim/plugin/settings/syntax.vim
+source ~/.vim/plugin/settings/vundle.vim

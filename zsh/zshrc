@@ -47,20 +47,90 @@ zstyle ':dotzsh:load' dzmodule \
   'editor' \
   'history' \
   'utility' \
-  'completion' \
-  'theme'
+  'completion'
 
 # Set the theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':dotzsh:module:theme' theme 'dotphiles'
+#zstyle ':dotzsh:module:theme' theme 'dotphiles'
 # Set custom scheme based on hostname or domain
 #zstyle ':dotzsh:module:theme:host:hostname' theme 'dotphiles' 'soldark' 'yellow'
 #zstyle ':dotzsh:module:theme:host:hostname2.example2.com' theme 'dotphiles' 'soldark' 'violet'
 #zstyle ':dotzsh:module:theme:domain:example.net' theme 'dotphiles' 'soldark' 'red'
 
 # Load dotzsh
-source "$DOTZSH/init.zsh"
+source "$HOME/.dotfiles/zsh/dotzsh/init.zsh"
 
-# Customize to your needs...
+#------------------------------
 
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="robbyrussell"
+
+source $ZSH/oh-my-zsh.sh
+
+export EDITOR=`which vim`
+
+export PATH=$HOME/.launchd.conf:$HOME/local/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin:/usr/local/bin:/usr/local/sbin:/bin
+
+#enable plugins via oh-my-zsh
+plugins=(vundle git brew osx gem npm github zsh-history-substring-search mercurial)
+
+alias up='sudo softwareupdate -i -a && brew update && brew upgrade &&  upgrade_oh_my_zsh && cd /usr/local/Cellar/clisp/2.49/share/vim/vim73 && aap fetch && cd - && vim +BundleInstall! +qall! && clear'
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias t="nocorrect tmuxinator"
+alias grunt="nocorrect grunt"
+alias isup="nocorrect isup"
+alias nave='nocorrect nave'
+alias tmux='nocorrect tmux'
+alias htop='nocorrect htop'
+alias vimrc='vim $HOME/.vimrc'
+alias rar='nocorrect rar'
+alias brwe='brew'
+alias e='exit'
+alias b='brew'
+alias v='vim'
+
+autoload -U compinit && {
+# Default colors for listings.
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")'
+
+# Separate directories from files.
+zstyle ':completion:*' list-dirs-first true
+}
+
+#report cpu-/system-/user-time of commands running longer than 5 seconds
+REPORTTIME=6
+
+# enable tmuxinator
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator ]]
+
+fpath=($HOME/github/zsh-completions $fpath)
+
+hg_dirty() {
+  hg status 2> /dev/null \
+  | awk '$1 == "?" { print "?" } $1 != "?" { print "!" }' \
+  | sort | uniq | head -c1
+}
+
+function hg_prompt_info {
+hg prompt --angle-brackets "\
+<on %{$fg[magenta]%}<branch>%{$reset_color%}>\
+< at %{$fg[yellow]%}<tags|%{$reset_color%}, %{$fg[yellow]%}>%{$reset_color%} >\
+%{$fg[cyan]%}<status|modified|unknown><update>%{$reset_color%}<
+patches: <patches|join( → )|pre_applied(%{$fg[yellow]%})|post_applied(%{$reset_color%})|pre_unapplied(%{$fg_bold[black]%})|post_unapplied(%{$reset_color%})>>" 2>/dev/null
+}
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# Start a server in the current directory
+function server() {
+  local port="${1:-8000}"
+  open "http://localhost:${port}/"
+  python -m SimpleHTTPServer "$port"
+}
+
+. `brew --prefix`/etc/profile.d/z.sh
+function precmd () {
+ z --add "$(pwd -P)"
+}

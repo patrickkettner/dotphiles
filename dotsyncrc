@@ -48,31 +48,32 @@ dotsyncrc
 #ruby/caprc
 #screen/screenrc
 #shell/hushlogin
-#shell/urlview
+shell/urlview
 #ssh
 #subversion
 #task/task
 #task/taskrc
-#tmux/tmux.conf
-#tmux/tmuxinator
-#vim/dotvim:.vim
-#vim/vimrc
+tmux/tmux.conf
+tmux/tmuxinator
+tmux/tmux-powerline
+vim/dotvim:.vim
+vim/vimrc
 #vim/gvimrc
 #wget/wgetrc
-#zsh/fasdrc
-#zsh/dotzsh:.zsh
+zsh/fasdrc
+zsh/dotzsh:.zsh
 #zsh/zlogin
 #zsh/zlogout
-#zsh/zprofile
-#zsh/zshenv
-#zsh/zshrc
+zsh/zprofile
+zsh/zshenv
+zsh/zshrc
 [endfiles]
 
 # Hosts to sync
 ## hostname                     type=masterhost, ANY or NONE
 [hosts]
-#host1.example.com               git=ANY                 #git repo, pull from anywhere
-#host2.example.com               git=ANY                 #git repo, pull from anywhere
+Patricks-MacBook-Pro.1071064617.members.btmm.icloud.com               git=ANY                 #git repo, pull from anywhere
+UOI-UO-Patrick-Kettner.1071064617.members.btmm.icloud.com               git=ANY                 #git repo, pull from anywhere
 #host3.example.com               git=ANY                 #git repo, pull from anywhere
 #host4.example.com               git=host5.example.com   #git repo, pull from host5
 #host5.example.com               git=NONE                #git repo, local only
