@@ -33,6 +33,7 @@ Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'teramako/jscomplete-vim'
 Bundle 'Shougo/vimshell'
 Bundle 'Shougo/vimproc'
+Bundle 'itspriddle/vim-jquery'
 
 set autoindent "lines following an indented line will have the same indentation as the previous line
 set autoread " auto reload file if its saved outside of vim
