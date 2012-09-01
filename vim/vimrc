@@ -34,6 +34,9 @@ Bundle 'teramako/jscomplete-vim'
 Bundle 'Shougo/vimshell'
 Bundle 'Shougo/vimproc'
 Bundle 'itspriddle/vim-jquery'
+Bundle 'vim-scripts/SyntaxComplete'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'editorconfig/editorconfig-vim'
 
 set autoindent "lines following an indented line will have the same indentation as the previous line
 set autoread " auto reload file if its saved outside of vim
