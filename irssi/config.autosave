@@ -105,7 +105,7 @@ chatnets = {
   Freenode = { type = "IRC"; };
   freenode_ssl = { type = "IRC"; };
   "freenode-tor" = { type = "IRC"; };
-  localhost = { type = "IRC"; autosendcmd = "/^join html5, jsclique"; };
+  localhost = { type = "IRC"; autosendcmd = "/^join javascript, css"; };
 };
 
 channels = (
@@ -303,6 +303,8 @@ settings = {
   "fe-common/core" = {
     theme = "solarized-universal";
     hilight_color = "= %R";
+    bell_beeps = "yes";
+    beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
   };
 };
 hilights = (

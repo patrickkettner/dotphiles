@@ -96,6 +96,7 @@ zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:
 
 # Separate directories from files.
 zstyle ':completion:*' list-dirs-first true
+#
 }
 
 #report cpu-/system-/user-time of commands running longer than 5 seconds
@@ -104,7 +105,6 @@ REPORTTIME=6
 # enable tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator ]]
 
-fpath=($HOME/github/zsh-completions $fpath)
 
 hg_dirty() {
   hg status 2> /dev/null \

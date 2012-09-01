@@ -31,7 +31,7 @@ dotsyncrc
 #grc
 #input/editrc
 #input/inputrc
-#irssi
+irssi
 #mercurial/hgrc
 #mercurial/hgignore
 #mutt

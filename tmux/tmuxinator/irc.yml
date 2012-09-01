@@ -1,0 +1,13 @@
+# ~/.tmuxinator/irc.yml
+# you can make as many tabs as you wish...
+
+project_name: irssi
+project_root: $HOME
+tabs:
+  - irc:
+    - sleep 10 && irssi
+  - tor:
+      layout: main-vertical
+      panes:
+        - tor
+        - socat TCP4-LISTEN:6666,fork SOCKS4A:localhost:p4fsi4ockecnea7l.onion:6667,socksport=9050

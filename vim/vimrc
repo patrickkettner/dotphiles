@@ -34,6 +34,7 @@ Bundle 'teramako/jscomplete-vim'
 Bundle 'Shougo/vimshell'
 Bundle 'Shougo/vimproc'
 Bundle 'itspriddle/vim-jquery'
+Bundle 'nono/vim-handlebars'
 
 set autoindent "lines following an indented line will have the same indentation as the previous line
 set autoread " auto reload file if its saved outside of vim
@@ -117,6 +118,9 @@ autocmd BufReadPost *.docx %!antiword "%"
 
 "syntax highlighting for tmux config
 au BufNewFile,BufRead .tmux.conf*,tmux.conf* set filetype=tmux
+
+"syntax highlighting for handlebars config
+au BufNewFile,BufRead .handlebars* set filetype=handlebars
 
 "stntax highlighting forscss files
 au BufRead,BufNewFile *.scss set filetype=scss

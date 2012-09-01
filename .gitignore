@@ -33,3 +33,4 @@ mutt/certificates
 task/*.data
 git/gitconfig
 dotsyncrc
+irssi/sasl.auth

@@ -1,0 +1,14 @@
+--- Log opened Mon Aug 20 16:52:43 2012
+16:53 #css: c<c 5/mwdgc>c epatrickkettner: i've tried setting a static width and it doesn't make any difference. maybe i've combined two different ways of doing it and have mixed things up.
+17:05 #css: c<c 5/mwdgc>c epatrickkettner: i've wrapped my children in a div and set its width to 9999px. this has worked. thanks so much for your help!
+18:13 c<c5/etisfogc>c e5/hey, you there? :)
+22:22 #css: c<c 5/azbyingc>c epatrickkettner, what is this /9 hack ?
+22:28 #css: c<c 5/azbyingc>c epatrickkettner, my working css rule on compliant browsers is this    #mydiv { background: rgba(0,0,0,0.6); }
+22:30 #css: c<c =/skcin7gc>c e#patrickkettner, Preferably supports IE6+7 but not mandatory.
+22:35 #css: c<c =/skcin7gc>c eI'll report my results but thanks in advance patrickkettner
+22:36 #css: c<c 5/azbyingc>c epatrickkettner, changing it to -ms-filter works partially. ie9 now ignores it and only applies the rgba, but ie8 doesn't know anything about -ms-filter and never applies the rule :(
+22:40 #css: c<c 5/skcin7gc>c epatrickkettner, it works, but how would I get the "fourth" column to stretch out to the remainder of the screen? http://ptban.com/misc/display.html
+22:46 #css: c<c 5/skcin7gc>c epatrickkettner, can we be friends? =D Thank you!
+22:58 #css: c<c =/azbyingc>c eok, patrickkettner .. here you go: http://jsfiddle.net/rDr24/1/
+23:04 #css: c<c 5/azbyingc>c epatrickkettner, err.. thats not the point and no you don;t need to
+--- Log closed Mon Aug 20 23:13:29 2012
