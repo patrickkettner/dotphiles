@@ -308,8 +308,10 @@ settings = {
 hilights = (
   { text = "patrickkettner"; color = "%M"; nick = "yes"; word = "yes"; }
 );
-keyboard = ( 
-  { key = "meta-[M"; id = "command"; data = "mouse_xterm "; }
+keyboard = (
+  { key = "meta-[M"; id = "command"; data = "mouse_xterm "; },
+  { key = "meta-<"; id = "command"; data = "window previous"; },
+  { key = "meta->"; id = "command"; data = "window next"; }
 );
 
 windows = { 1 = { immortal = "yes"; name = "(status)"; level = "ALL"; }; };

@@ -37,6 +37,9 @@ Bundle 'itspriddle/vim-jquery'
 Bundle 'vim-scripts/SyntaxComplete'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'editorconfig/editorconfig-vim'
+Bundle 'nono/vim-handlebars'
+Bundle 'rstacruz/sparkup'
+Bundle 'vim-scripts/Rainbow-Parenthesis'
 
 set autoindent "lines following an indented line will have the same indentation as the previous line
 set autoread " auto reload file if its saved outside of vim
@@ -120,6 +123,9 @@ autocmd BufReadPost *.docx %!antiword "%"
 
 "syntax highlighting for tmux config
 au BufNewFile,BufRead .tmux.conf*,tmux.conf* set filetype=tmux
+
+"syntax highlighting for handlebars config
+au BufNewFile,BufRead .handlebars* set filetype=handlebars
 
 "stntax highlighting forscss files
 au BufRead,BufNewFile *.scss set filetype=scss
@@ -274,6 +280,13 @@ let ruby_fold=1               " Ruby
 let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
+
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
 
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc

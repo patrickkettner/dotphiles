@@ -1,0 +1,14 @@
+# ~/.tmuxinator/work.yml
+# you can make as many tabs as you wish...
+
+project_name: Tmuxinator
+project_root: ~/Dropbox/work/UO
+tabs:
+  - editor:
+      layout: 6c07,425x81,0,0{212x81,0,0,212x81,213,0[212x40,213,0,212x40,213,41]}
+      panes:
+        - vim
+        - #empty, will just run plain bash
+        - lftp uostatic
+  - mkt_node:
+    - node ~/localhost/email_maker/app.js
