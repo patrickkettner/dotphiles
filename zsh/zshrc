@@ -39,6 +39,10 @@ zstyle ':dotzsh:load' zmodule 'stat'
 # Set the Zsh functions to load (man zshcontrib).
 zstyle ':dotzsh:load' zfunction 'zargs' 'zmv'
 
+#auto start tmux
+zstyle ':dotzsh:module:tmux' auto-start 'yes'
+
+
 # Set the dotzsh modules to load (browse modules).
 # The order matters.
 zstyle ':dotzsh:load' dzmodule \
@@ -47,6 +51,7 @@ zstyle ':dotzsh:load' dzmodule \
   'editor' \
   'history' \
   'utility' \
+  'tmux' \
   'completion'
 
 # Set the theme to load.
@@ -89,6 +94,7 @@ alias rar='nocorrect rar'
 alias brwe='brew'
 alias e='exit'
 alias b='brew'
+alias s='spot'
 alias v='vim'
 alias g='git'
 
@@ -98,14 +104,14 @@ zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:
 
 # Separate directories from files.
 zstyle ':completion:*' list-dirs-first true
-#
+
 }
 
 #report cpu-/system-/user-time of commands running longer than 5 seconds
 REPORTTIME=6
 
 # enable tmuxinator
-#[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator ]]
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator ]]
 
 
 hg_dirty() {
@@ -130,9 +136,4 @@ function server() {
   local port="${1:-8000}"
   open "http://localhost:${port}/"
   python -m SimpleHTTPServer "$port"
-}
-
-. `brew --prefix`/etc/profile.d/z.sh
-function precmd () {
- z --add "$(pwd -P)"
 }
