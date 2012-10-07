@@ -5,27 +5,29 @@
 "
 " Authors:
 "   Ben O'Hara <bohara@gmail.com>
+"   Patrick Kettner <patrickkettner@gmail.com>
 "
 " Call dotvim
 source ~/.vim/dotvim.vim
 
 set nocompatible
 
-filetype plugin indent on " auto syntax higlighting
+filetype plugin indent on " auto syntax higlighting, file based indention, and file detection plugins
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/vundle/ " adds vundle to vim's run time path
 call vundle#rc()
-"let g:vundles=['general', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'misc']
-let g:vundles=['general', 'programming', 'python', 'javascript', 'html']
+"let g:vundles=['general', 'programming', 'php', 'ruby', 'javascript', 'html', 'misc']
+let g:vundles=['general', 'programming', 'python', 'html']
 
 source ~/.vim/vundles.vim
+Bundle 'PProvost/vim-ps1'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-speeddating'
 Bundle 'benmills/vimux'
 Bundle 'bolasblack/csslint.vim'
 Bundle 'othree/html5-syntax.vim'
 Bundle 'othree/html5.vim'
-Bundle 'pangloss/vim-javascript'
+"Bundle 'pangloss/vim-javascript'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'zaiste/tmux.vim'
 Bundle 'jeetsukumaran/vim-buffergator'
@@ -39,7 +41,8 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'nono/vim-handlebars'
 Bundle 'rstacruz/sparkup'
-Bundle 'vim-scripts/Rainbow-Parenthesis'
+Bundle 'sjl/gundo.vim'
+Bundle 'sjl/clam.vim'
 
 set autoindent "lines following an indented line will have the same indentation as the previous line
 set autoread " auto reload file if its saved outside of vim
@@ -154,6 +157,8 @@ cmap w!! w !sudo tee % >/dev/null
 
 "loads template of filetype if it exists
 autocmd! BufNewFile * silent! 0r ~/.vim/skel/tmpl.%:e
+
+hi CursorLine ctermbg=0
 
 " Pulse ------------------------------------------------------------------- {{{
 " function! PulseCursorLine()
@@ -291,18 +296,43 @@ endif
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
 
-source ~/.vim/plugin/settings/bindings.vim
-source ~/.vim/plugin/settings/colors.vim
-source ~/.vim/plugin/settings/ctrlp.vim
-source ~/.vim/plugin/settings/fugitive.vim
-source ~/.vim/plugin/settings/gitcommit.vim
-source ~/.vim/plugin/settings/indent-guides.vim
-source ~/.vim/plugin/settings/indentobject.vim
-source ~/.vim/plugin/settings/macros.vim
-source ~/.vim/plugin/settings/neocomplcache.vim
-source ~/.vim/plugin/settings/nerdcommenter.vim
-source ~/.vim/plugin/settings/nerdtree.vim
-source ~/.vim/plugin/settings/omnicomplete.vim
-source ~/.vim/plugin/settings/powerline.vim
-source ~/.vim/plugin/settings/syntax.vim
+nnoremap ! :Clam<space>
+vnoremap ! :ClamVisual<space>
+let g:clam_autoreturn = 1
+
+augroup ft_javascript
+  au!
+
+  au FileType javascript setlocal foldmethod=marker
+  au FileType javascript setlocal foldmarker={,}
+
+  " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+  " positioned inside of them AND the following code doesn't get unfolded.
+  au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+augroup END
+
+augroup ft_python
+  au!
+
+  au FileType python setlocal define=^\s*\\(def\\\\|class\\)
+  au FileType man nnoremap <buffer> <cr> :q<cr>
+
+  " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
+  " override this in a normal way, could you?
+  au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
+
+  " Jesus, Python.  Five characters of punctuation for a damn string?
+  au FileType python inoremap <buffer> <c-g> _(u'')<left><left>
+
+  au FileType python inoremap <buffer> <c-b> """"""<left><left><left>
+augroup END
+
+augroup ft_vim
+  au!
+
+  au FileType vim setlocal foldmethod=marker
+  au FileType help setlocal textwidth=78
+  au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
 source ~/.vim/plugin/settings/vundle.vim
