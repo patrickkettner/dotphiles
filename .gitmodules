@@ -12,11 +12,11 @@
 	url = https://github.com/dotphiles/dotsync.git
 [submodule "zsh/dotzsh"]
 	path = zsh/dotzsh
-	url = https://github.com/dotphiles/dotzsh.git
+	url = https://github.com/patrickkettner/dotzsh.git
 [submodule "vim/dotvim"]
 	path = vim/dotvim
 	url = https://github.com/patrickkettner/dotvim.git
 
 [submodule "tmux-powerline"]
 	path = tmux-powerline
-	url = https://github.com/erikw/tmux-powerline.git
+	url = https://github.com/patrickkettner/tmux-powerline.git
