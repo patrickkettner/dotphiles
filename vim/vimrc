@@ -20,14 +20,15 @@ call vundle#rc()
 let g:vundles=['general', 'programming', 'python', 'html']
 
 source ~/.vim/vundles.vim
+Bundle 'Windows-PowerShell-Syntax-Plugin'
+Bundle 'Windows-PowerShell-Indent-File'
 Bundle 'PProvost/vim-ps1'
 Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-speeddating'
 Bundle 'benmills/vimux'
 Bundle 'bolasblack/csslint.vim'
 Bundle 'othree/html5-syntax.vim'
 Bundle 'othree/html5.vim'
-"Bundle 'pangloss/vim-javascript'
+Bundle 'pangloss/vim-javascript'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'zaiste/tmux.vim'
 Bundle 'jeetsukumaran/vim-buffergator'
@@ -37,12 +38,14 @@ Bundle 'Shougo/vimshell'
 Bundle 'Shougo/vimproc'
 Bundle 'itspriddle/vim-jquery'
 Bundle 'vim-scripts/SyntaxComplete'
-Bundle 'kchmck/vim-coffee-script'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'nono/vim-handlebars'
 Bundle 'rstacruz/sparkup'
 Bundle 'sjl/gundo.vim'
 Bundle 'sjl/clam.vim'
+Bundle 'miripiruni/CSScomb-for-Vim'
+Bundle 'clones/vim-l9.git'
+Bundle 'clones/vim-autocomplpop.git'
 
 set autoindent "lines following an indented line will have the same indentation as the previous line
 set autoread " auto reload file if its saved outside of vim
@@ -128,7 +131,7 @@ autocmd BufReadPost *.docx %!antiword "%"
 au BufNewFile,BufRead .tmux.conf*,tmux.conf* set filetype=tmux
 
 "syntax highlighting for handlebars config
-au BufNewFile,BufRead .handlebars* set filetype=handlebars
+au BufNewFile,BufRead *.handlebars set filetype=handlebars
 
 "stntax highlighting forscss files
 au BufRead,BufNewFile *.scss set filetype=scss
@@ -159,58 +162,6 @@ cmap w!! w !sudo tee % >/dev/null
 autocmd! BufNewFile * silent! 0r ~/.vim/skel/tmpl.%:e
 
 hi CursorLine ctermbg=0
-
-" Pulse ------------------------------------------------------------------- {{{
-" function! PulseCursorLine()
-"     let current_window = winnr()
-"
-"     windo set nocursorline
-"     execute current_window . 'wincmd w'
-"
-"     setlocal cursorline
-"
-"     redir => old_hi
-"         silent execute 'hi CursorLine'
-"     redir END
-"     let old_hi = split(old_hi, '\n')[0]
-"     let old_hi = substitute(old_hi, 'xxx', '', '')
-"
-"     hi CursorLine guibg=#2a2a2a ctermbg=233
-"     redraw
-"     sleep 20m
-"
-"     hi CursorLine guibg=#333333 ctermbg=235
-"     redraw
-"     sleep 20m
-"
-"     hi CursorLine guibg=#3a3a3a ctermbg=237
-"     redraw
-"     sleep 20m
-"
-"     hi CursorLine guibg=#444444 ctermbg=239
-"     redraw
-"     sleep 20m
-"
-"     hi CursorLine guibg=#3a3a3a ctermbg=237
-"     redraw
-"     sleep 20m
-"
-"     hi CursorLine guibg=#333333 ctermbg=235
-"     redraw
-"     sleep 20m
-"
-"     hi CursorLine guibg=#2a2a2a ctermbg=233
-"     redraw
-"     sleep 20m
-"
-"     execute 'hi ' . old_hi
-"
-"     windo set cursorline
-"     execute current_window . 'wincmd w'
-" endfunction
-
-" }}}
-"nnoremap n n:call PulseCursorLine()<cr>
 
 " MkdirIfNeeded(dir, flags, permissions) {{{
 
@@ -296,6 +247,17 @@ endif
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
 
+map <Leader>m "byy
+vmap <Leader>m "byy
+
+map <Leader>n "bx
+vmap <Leader>n "bx
+
+map <Leader>. "bp
+vmap <Leader>. "bp
+
+autocmd BufWritePost,FileWritePost *.plist !plutil -convert binary1
+
 nnoremap ! :Clam<space>
 vnoremap ! :ClamVisual<space>
 let g:clam_autoreturn = 1
@@ -334,5 +296,12 @@ augroup ft_vim
   au FileType help setlocal textwidth=78
   au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
+
+if has("autocmd") && exists("+omnifunc")
+autocmd Filetype *
+      \ if &omnifunc == "" |
+      \   setlocal omnifunc=syntaxcomplete#Complete |
+      \ endif
+  endif
 
 source ~/.vim/plugin/settings/vundle.vim

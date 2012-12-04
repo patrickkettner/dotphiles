@@ -74,16 +74,18 @@ ZSH_THEME="robbyrussell"
 
 export EDITOR=`which vim`
 
-export PATH=$HOME/.launchd.conf:$HOME/local/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin:/usr/local/bin:/usr/local/sbin:/bin:/usr/local/Cellar/coreutils/8.19/libexec/gnubin
+export PATH=$HOME/.launchd.conf:$HOME/local/bin:/usr/local/bin:/usr/local/share/npm/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin:/usr/local/bin:/usr/local/sbin:/bin:/usr/local/Cellar/coreutils/8.19/libexec/gnubin
+
+export ANDROID_SDK_ROOT=/usr/local/Cellar/android-sdk/r20.0.3
 
 #enable plugins via oh-my-zsh
 plugins=(svn git vundle brew osx gem npm github zsh-history-substring-search zsh-syntax-highlighting mercurial)
 
 
-alias up='sudo softwareupdate -i -a && brew update && brew upgrade &&  upgrade_oh_my_zsh && vim +BundleInstall! +qall! && clear'
+alias up='sudo softwareupdate -i -a && brew update && brew upgrade && brew cleanup && sudo gem update && npm update npm -g && npm update -g &&  upgrade_oh_my_zsh && vim +BundleInstall! +qall! && clear'
 alias work='ssh kettnerp1@uoi-uo-patrick-kettner.1071064617.members.btmm.icloud.com'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-alias t="nocorrect tmuxinator"
+#alias t="nocorrect tmuxinator"
 alias bunyip="bunyip -c ~/Dropbox/bunyipConf.js"
 alias grunt="nocorrect grunt"
 alias isup="nocorrect isup"
@@ -210,6 +212,14 @@ EOF
 # Send a fake UA string for sites that sniff it instead of using the Accept-Encoding header. (Looking at you, ajax.googleapis.com!)
 function httpcompression() {
   encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
+}
+
+# Get gzipped file size
+function gz() {
+  echo "orig size (bytes): "
+  cat "$1" | wc -c
+  echo "gzipped size (bytes): "
+  gzip -c "$1" | wc -c
 }
 
 source $ZSH/oh-my-zsh.sh
